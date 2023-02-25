@@ -25,24 +25,29 @@ while True:
     user_input = get_menu_option()
 
     if user_input == 'd':
-        deposito = int(input('Digite o valor que deseja depositar:'))
-        saldo = saldo + deposito
-        extrato.append(deposito)
-    elif user_input == 's':
-        saque = int(input('Digite o valor que deseja sacar:'))
-        if confere_limite > limite_saques or saque > saldo:
-            print('Não foi possível concluir o saque, verifique o saldo atual ou seu limite!!!')
+        deposito = float(input('Digite o valor que deseja depositar:'))
+        if deposito >= 0:
+            saldo = saldo + deposito
+            extrato.append(f'Depósito de R$: {deposito}')
         else:
-            print('Saque concluído com sucesso!')
-            confere_limite += 1
-            saldo = saldo - saque
-            saque = saque * (-1)
-            str(saque)
-            extrato.append(saque)
+            print('Valor inválido!')    
+    elif user_input == 's':
+        saque = float(input('Digite o valor que deseja sacar:'))
+        if saque <= 0:
+            print('Valor inválido!')
+        else:
+            if confere_limite > limite_saques or saque > saldo:
+                print('Não foi possível concluir o saque, verifique o saldo atual ou seu limite de saques!!!')
+            else:
+                print('Saque concluído com sucesso!')
+                confere_limite += 1
+                saldo = saldo - saque
+                extrato.append(f'Saque de R$: -{saque}')
     elif user_input == 'e':
-        print('Segue extrato da movimentação da conta!')
-        print(extrato)          
-        print(saldo)
+        print('-------------------extrato da movimentação da conta!---------------------')
+        print(*extrato, sep='\n')
+        print('-------------------------------------------------------------------------')          
+        print(f'Saldo atual: {saldo}')
     elif user_input == 'x':
         print('Obrigado pela preferência!')
         exit()
